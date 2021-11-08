@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+//AUTH
+use App\Http\Controllers\auth\Index;
+//end
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+//AUTH
+Route::get('/', [Index::class, 'index']);
+//end
+
+Route::get('/umum', function () {
     return view('index');
 });
