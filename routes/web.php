@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 //AUTH
 use App\Http\Controllers\auth\Index;
+use App\Http\Controllers\PartaiController;
+
 //end
 
 
@@ -27,6 +29,10 @@ Route::get('/login', [Index::class, 'index']);
 Route::get('/', function() {
     return view('keuangan/index');
 });
+
+
+// Partai
+Route::get('/partai', [PartaiController::class, 'index']);
 
 Route::get('/umum', function () {
     return view('index');
