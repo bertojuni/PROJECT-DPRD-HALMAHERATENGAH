@@ -23,7 +23,7 @@ Route::get('/login', [Index::class, 'index']);
 //end
 
 
-// templating
+// dashboard
 Route::get('/', function() {
     return view('keuangan/index');
 });
