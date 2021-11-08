@@ -19,8 +19,14 @@ use App\Http\Controllers\auth\Index;
 */
 
 //AUTH
-Route::get('/', [Index::class, 'index']);
+Route::get('/login', [Index::class, 'index']);
 //end
+
+
+// templating
+Route::get('/', function() {
+    return view('keuangan/index');
+});
 
 Route::get('/umum', function () {
     return view('index');
