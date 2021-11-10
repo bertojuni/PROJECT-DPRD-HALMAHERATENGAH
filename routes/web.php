@@ -35,6 +35,8 @@ Route::get('/', function() {
 Route::get('/partai', [PartaiController::class, 'index']);
 Route::post('/partai/store', [PartaiController::class, 'store']);
 Route::post('/partai/delete/{id}', [PartaiController::class, 'delete']);
+Route::get('/partai/edit/{id}', [PartaiController::class, 'edit']);
+Route::post('/partai/update/{id}', [PartaiController::class, 'update']);
 
 Route::get('/umum', function () {
     return view('index');

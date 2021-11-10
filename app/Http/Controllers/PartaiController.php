@@ -14,7 +14,8 @@ class PartaiController extends Controller
         $this->partai_model = new PartaiModel();
     }
 
-    public function index() {
+    public function index()
+    {
         $data = [
             'title' => 'Data Partai',
             'partai' => PartaiModel::get()
@@ -23,7 +24,8 @@ class PartaiController extends Controller
         return view('partai.index', $data);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $file_partai = $request->file('partai_logo');
         $nama_partai = $request->partai_nama;
 
@@ -43,9 +45,47 @@ class PartaiController extends Controller
         return redirect("/partai");
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $data = $this->partai_model::where('partai_id', $id)->delete();
 
+        return redirect("/partai");
+    }
+
+    public function edit($id)
+    {
+        $partai = $this->partai_model::where('partai_id', $id)->first();
+
+        $data = [
+            'id' => $id,
+            'partai' => $partai
+        ];
+
+        return view('partai.edit', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = [
+            'partai_nama' => $request->partai_nama,
+        ];
+
+
+        $file_partai = $request->file('partai_logo');
+
+        if ($file_partai) {
+            $nama_partai = $request->partai_nama;
+
+            $nama_partai = str_replace(" ", "", $nama_partai);
+            $nama_file = $nama_partai . '-' . time() . '.' . $file_partai->getClientOriginalExtension();
+
+            $file_partai->move(public_path('/uploads/partai'),  $nama_file);
+            $file_name = 'uploads/partai/' . $nama_file;
+
+            $data['partai_logo'] = $file_name;
+        }
+
+        $this->partai_model->where('partai_id', $id)->update($data);
         return redirect("/partai");
     }
 }

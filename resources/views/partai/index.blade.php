@@ -33,9 +33,9 @@
                                     <tr>
                                         <td> {{ $i }} </td>
                                         <td> {{ $p->partai_nama }} </td>
-                                        <td> {{ $p->partai_logo }} </td>
+                                        <td> <img src="{{ url($p->partai_logo) }}" class="img-fluid" style="max-height: 80px"> </td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-warning btn-circle">
+                                            <a href="{{ url('/partai/edit/' . $p->partai_id) }}" class="btn btn-sm btn-warning btn-circle">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </a>
                                             <div onclick="deleteModal({{ $p->partai_id }})"
