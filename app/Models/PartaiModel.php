@@ -11,5 +11,5 @@ class PartaiModel extends Model
     protected $table = 'partai';
     protected $primaryKey = 'partai_id';
 
-    
+    protected $fillable = ['partai_id', 'partai_nama', 'partai_logo', 'created_at', 'updated_at'];
 }

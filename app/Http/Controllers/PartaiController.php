@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 class PartaiController extends Controller
 {
     //
+
+    public function __construct()
+    {
+        $this->partai_model = new PartaiModel();
+    }
+
     public function index() {
         $data = [
             'title' => 'Data Partai',
@@ -15,5 +21,31 @@ class PartaiController extends Controller
         ];
 
         return view('partai.index', $data);
+    }
+
+    public function store(Request $request) {
+        $file_partai = $request->file('partai_logo');
+        $nama_partai = $request->partai_nama;
+
+        $nama_partai = str_replace(" ", "", $nama_partai);
+        $nama_file = $nama_partai . '-' . time() . '.' . $file_partai->getClientOriginalExtension();
+
+        $file_partai->move(public_path('/uploads/partai'),  $nama_file);
+        $file_name = 'uploads/partai/' . $nama_file;
+
+        $data = [
+            'partai_nama' => $request->partai_nama,
+            'partai_logo' => $file_name
+        ];
+
+        $this->partai_model->create($data);
+
+        return redirect("/partai");
+    }
+
+    public function delete($id) {
+        $data = $this->partai_model::where('partai_id', $id)->delete();
+
+        return redirect("/partai");
     }
 }
