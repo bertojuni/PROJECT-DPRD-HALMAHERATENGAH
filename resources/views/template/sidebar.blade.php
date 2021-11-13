@@ -54,7 +54,7 @@
 
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="#" aria-expanded="true" aria-controls="collapseTwo">
+            <a class="nav-link" href="{{url('anggota')}}" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-users"></i>
                 <span>Anggota</span>
             </a>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnggotaController;
 use Illuminate\Support\Facades\Route;
 
 //AUTH
@@ -37,6 +38,14 @@ Route::post('/partai/store', [PartaiController::class, 'store']);
 Route::post('/partai/delete/{id}', [PartaiController::class, 'delete']);
 Route::get('/partai/edit/{id}', [PartaiController::class, 'edit']);
 Route::post('/partai/update/{id}', [PartaiController::class, 'update']);
+
+// Anggota
+Route::get('/anggota', [AnggotaController::class, 'index']);
+Route::post('/anggota/store', [AnggotaController::class, 'store']);
+Route::get('/anggota/detail/{id}', [AnggotaController::class, 'detail']);
+Route::get('/anggota/edit/{id}', [AnggotaController::class, 'edit']);
+Route::post('/anggota/update/{id}', [AnggotaController::class, 'update']);
+Route::post('/anggota/delete/{id}', [AnggotaController::class, 'delete']);
 
 Route::get('/umum', function () {
     return view('index');
