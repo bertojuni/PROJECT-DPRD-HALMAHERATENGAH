@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 //AUTH
 use App\Http\Controllers\auth\Index;
 use App\Http\Controllers\PartaiController;
+use App\Http\Controllers\PegawaiController;
 
 //end
 
@@ -46,6 +47,14 @@ Route::get('/anggota/detail/{id}', [AnggotaController::class, 'detail']);
 Route::get('/anggota/edit/{id}', [AnggotaController::class, 'edit']);
 Route::post('/anggota/update/{id}', [AnggotaController::class, 'update']);
 Route::post('/anggota/delete/{id}', [AnggotaController::class, 'delete']);
+
+// pegawai
+Route::get('/pegawai', [PegawaiController::class, 'index']);
+Route::post('/pegawai/store', [PegawaiController::class, 'store']);
+Route::get('/pegawai/detail/{id}', [PegawaiController::class, 'detail']);
+Route::get('/pegawai/edit/{id}', [PegawaiController::class, 'edit']);
+Route::post('/pegawai/update/{id}', [PegawaiController::class, 'update']);
+Route::post('/pegawai/delete/{id}', [PegawaiController::class, 'delete']);
 
 Route::get('/umum', function () {
     return view('index');
