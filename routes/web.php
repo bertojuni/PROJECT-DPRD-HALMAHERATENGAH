@@ -28,7 +28,7 @@ Route::get('/login', [Index::class, 'index']);
 
 
 // dashboard
-Route::get('/', function() {
+Route::get('/', function () {
     return view('keuangan/index');
 });
 
@@ -58,4 +58,14 @@ Route::post('/pegawai/delete/{id}', [PegawaiController::class, 'delete']);
 
 Route::get('/umum', function () {
     return view('index');
+});
+
+// surat
+Route::get('/suratmasuk', function () {
+    return view('suratmasuk/index');
+});
+
+// ppt
+Route::get('/ppt', function () {
+    return view('ppt/index');
 });
