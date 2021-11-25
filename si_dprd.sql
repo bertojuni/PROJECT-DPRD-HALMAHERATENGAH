@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2021 at 02:51 PM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Waktu pembuatan: 25 Nov 2021 pada 14.08
+-- Versi server: 10.4.21-MariaDB
+-- Versi PHP: 8.0.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `anggota`
+-- Struktur dari tabel `anggota`
 --
 
 CREATE TABLE `anggota` (
@@ -33,36 +33,53 @@ CREATE TABLE `anggota` (
   `anggota_jabatan` varchar(50) NOT NULL,
   `anggota_tempatlhr` varchar(255) NOT NULL,
   `anggota_tgllhr` date NOT NULL,
-  `anggota_partai` int(11) NOT NULL,
+  `partai_id` int(11) NOT NULL,
   `anggota_pasangan` varchar(50) NOT NULL,
   `anggota_pekerjaan` varchar(255) NOT NULL,
   `anggota_alamat` text NOT NULL,
   `anggota_nohp` varchar(20) NOT NULL,
-  `angggota_email` varchar(50) NOT NULL,
+  `anggota_email` varchar(50) NOT NULL,
   `anggota_anak` int(11) NOT NULL,
   `anggota_ktp` varchar(255) NOT NULL,
   `anggota_npwp` varchar(255) NOT NULL,
   `anggota_bpjs` varchar(255) NOT NULL,
-  `anggota_created` datetime NOT NULL,
-  `anggota_updated` datetime NOT NULL
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `anggota`
+--
+
+INSERT INTO `anggota` (`anggota_id`, `anggota_nama`, `anggota_jabatan`, `anggota_tempatlhr`, `anggota_tgllhr`, `partai_id`, `anggota_pasangan`, `anggota_pekerjaan`, `anggota_alamat`, `anggota_nohp`, `anggota_email`, `anggota_anak`, `anggota_ktp`, `anggota_npwp`, `anggota_bpjs`, `created_at`, `updated_at`) VALUES
+(2, 'jasdfklasd', 'fasdfs', 'sdfsf', '1994-06-08', 1, 'sdfs', 'fsdfsd', 'tegal catak no.638 warungboto, umbulharjo, yogyakarta', '0895421735441', 'bertojunikrisnanto@gmail.com', 3, 'C:\\xampp\\tmp\\php2845.tmp', 'C:\\xampp\\tmp\\php2846.tmp', '22', '2021-11-24 06:39:06', '2021-11-24 06:42:59'),
+(3, 'jasdfklasd132131', 'fasdfs', 'sdfsf', '1997-06-24', 1, 'sdfs', 'fsdfsd', 'tegal catak no.638 warungboto, umbulharjo, yogyakarta', '0895421735441', 'bertojunikrisnanto@gmail.com', 10, 'C:\\xampp\\tmp\\php2BA9.tmp', 'C:\\xampp\\tmp\\php2BAA.tmp', '3643131313', '2021-11-24 06:45:11', '2021-11-24 06:45:11');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partai`
+-- Struktur dari tabel `partai`
 --
 
 CREATE TABLE `partai` (
   `partai_id` int(11) NOT NULL,
   `partai_nama` varchar(50) NOT NULL,
-  `partai_logo` varchar(255) NOT NULL
+  `partai_logo` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `partai`
+--
+
+INSERT INTO `partai` (`partai_id`, `partai_nama`, `partai_logo`, `created_at`, `updated_at`) VALUES
+(1, 'pdi', 'uploads/partai/pdi-1637726656.png', '2021-11-24 04:04:16', '2021-11-24 04:04:16');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pegawai`
+-- Struktur dari tabel `pegawai`
 --
 
 CREATE TABLE `pegawai` (
@@ -72,7 +89,7 @@ CREATE TABLE `pegawai` (
   `pg_gol` varchar(50) NOT NULL,
   `pg_jabatan` varchar(100) NOT NULL,
   `pg_tempatlhr` varchar(255) NOT NULL,
-  `pg_tgllhr` datetime NOT NULL,
+  `pg_tgllhr` date NOT NULL,
   `pg_status` varchar(50) NOT NULL,
   `pg_pasangan` varchar(50) DEFAULT NULL,
   `pg_anak` int(11) DEFAULT NULL,
@@ -84,14 +101,14 @@ CREATE TABLE `pegawai` (
   `pg_karpeg` varchar(50) NOT NULL,
   `pg_npwp` varchar(50) NOT NULL,
   `pg_bpjs` varchar(50) NOT NULL,
-  `pg_created` datetime NOT NULL,
-  `pg_updated` datetime NOT NULL
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ppt`
+-- Struktur dari tabel `ppt`
 --
 
 CREATE TABLE `ppt` (
@@ -104,14 +121,14 @@ CREATE TABLE `ppt` (
   `ppt_nohp` varchar(20) NOT NULL,
   `ppt_ktp` varchar(255) NOT NULL,
   `ppt_bagian` varchar(255) NOT NULL,
-  `ppt_created` datetime NOT NULL,
-  `ppt_updated` datetime NOT NULL
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `surat_masuk`
+-- Struktur dari tabel `surat_masuk`
 --
 
 CREATE TABLE `surat_masuk` (
@@ -124,14 +141,14 @@ CREATE TABLE `surat_masuk` (
   `sm_tujuan` text NOT NULL,
   `sm_penerima` varchar(50) NOT NULL,
   `sm_desc` text NOT NULL,
-  `sm_created` datetime NOT NULL,
-  `sm_updated` datetime NOT NULL
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `users`
 --
 
 CREATE TABLE `users` (
@@ -150,77 +167,77 @@ CREATE TABLE `users` (
 --
 
 --
--- Indexes for table `anggota`
+-- Indeks untuk tabel `anggota`
 --
 ALTER TABLE `anggota`
   ADD PRIMARY KEY (`anggota_id`);
 
 --
--- Indexes for table `partai`
+-- Indeks untuk tabel `partai`
 --
 ALTER TABLE `partai`
   ADD PRIMARY KEY (`partai_id`);
 
 --
--- Indexes for table `pegawai`
+-- Indeks untuk tabel `pegawai`
 --
 ALTER TABLE `pegawai`
   ADD PRIMARY KEY (`pg_id`);
 
 --
--- Indexes for table `ppt`
+-- Indeks untuk tabel `ppt`
 --
 ALTER TABLE `ppt`
   ADD PRIMARY KEY (`ppt_id`);
 
 --
--- Indexes for table `surat_masuk`
+-- Indeks untuk tabel `surat_masuk`
 --
 ALTER TABLE `surat_masuk`
   ADD PRIMARY KEY (`sm_id`);
 
 --
--- Indexes for table `users`
+-- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `anggota`
+-- AUTO_INCREMENT untuk tabel `anggota`
 --
 ALTER TABLE `anggota`
-  MODIFY `anggota_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `anggota_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `partai`
+-- AUTO_INCREMENT untuk tabel `partai`
 --
 ALTER TABLE `partai`
-  MODIFY `partai_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `partai_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `pegawai`
+-- AUTO_INCREMENT untuk tabel `pegawai`
 --
 ALTER TABLE `pegawai`
   MODIFY `pg_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ppt`
+-- AUTO_INCREMENT untuk tabel `ppt`
 --
 ALTER TABLE `ppt`
   MODIFY `ppt_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `surat_masuk`
+-- AUTO_INCREMENT untuk tabel `surat_masuk`
 --
 ALTER TABLE `surat_masuk`
   MODIFY `sm_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
