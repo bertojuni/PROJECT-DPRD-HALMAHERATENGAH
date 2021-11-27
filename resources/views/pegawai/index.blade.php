@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
                 <div class="mb-3 mt-1">
-                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addDataPartai">
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addDataPegawai">
                         <i class="fas fa-plus"></i>
                         Tambah Data
                     </button>
@@ -62,7 +62,7 @@
 
 
 {{-- modal add data --}}
-<div class="modal fade" id="addDataPartai" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="addDataPartaiLabel" aria-hidden="true">
+<div class="modal fade" id="addDataPegawai" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="addDataPartaiLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -75,6 +75,18 @@
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <div>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                Ada beberapa kesalahan dalam pengisian data, mohon periksa kembali!
+                            </div>
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $item => $value)
+                                        <li class="text-small"> {{$value}} </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="form-group">
                             <label for="pg_nama">Nama Pegawai</label>
                             <input type="text" class="form-control" id="pg_nama" required name="pg_nama">
@@ -127,7 +139,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="pg_status">Pasangan</label>
+                            <label for="pg_status">Status</label>
                             <select name="pg_status" id="pg_status" class="form-control">
                                 <option value="aktif">Aktif</option>
                                 <option value="tidak_aktif">Tidak Aktif</option>
@@ -234,5 +246,13 @@
         $('#deleteDataPegawai').modal('show');
         document.getElementById('modal-delete-form').setAttribute('action', 'pegawai/delete/' + id);
     }
+
+    @if($errors->any())
+        $(window).on('load', function() {
+        $('#addDataPegawai').modal('show');
+    });
+    @endif
+
+    
 </script>
 @endsection

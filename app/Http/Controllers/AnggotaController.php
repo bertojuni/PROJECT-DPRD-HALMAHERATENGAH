@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AnggotaModel;
 use App\Models\PartaiModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AnggotaController extends Controller
 {
@@ -56,7 +57,66 @@ class AnggotaController extends Controller
             'anggota_bpjs' => $request->anggota_bpjs
         ];
 
-        // dd($data);
+        $rules = [
+            'anggota_nama' => 'required|string',
+            'anggota_jabatan' => 'required|string',
+            'anggota_tempatlhr' => 'required|string',
+            'anggota_tgllhr' => 'required|string',
+            'partai_id' => 'required|date',
+            'anggota_pasangan' => 'required',
+            'anggota_alamat' => 'required',
+            'anggota_nohp' => 'required|string',
+            'anggota_pekerjaan' => 'required|string',
+            'anggota_email' => 'required|email',
+            'anggota_anak' => 'required|integer',
+            'anggota_ktp' => 'required|mimes:jpg,png,pdf',
+            'anggota_npwp' => 'required|mimes:jpg,png,pdf',
+            'anggota_bpjs' => 'required|mimes:jpg,png,pdf'
+        ];
+
+        $messages = [
+            'anggota_nama.required' => 'Anda harus mengisi kolom nama',
+            'anggota_jabatan.required' => 'Anda harus mengisi kolom jabatan',
+            'anggota_tempatlhr.required' => 'Anda harus mengisi kolom tempat lahir',
+            'anggota_tgllhr.required' => 'Anda harus mengisi kolom tgl lahir',
+            'partai_id' => 'Anda harus mengisi partai yang bersangkutan dengan anggota',
+            'anggota_pasangan' => 'Anda harus mengisi kolom nama anggota pasangan',
+            'anggota_alamat' => 'Anda harus mengisi kolom alamat anggota',
+            'anggota_nohp' => 'Anda harus mengisi kolom nomor HP',
+            'anggota_pekerjaan' => 'Anda harus mengisi pekerjaan anggota',
+            'anggota_email' => 'Anda harus mengisi alamt email',
+            'anggota_anak' => 'Anda harus mengisi jumlah anak',
+            'anggota_ktp' => 'Anda harus mengupload KTP anggota',
+            'anggota_npwp' => 'Anda harus mengupload NPWP anggota',
+            'anggota_bpjs' => 'Anda harus mengupload BPJS anggota'
+        ];
+
+        $validator = Validator::make($data, $rules, $messages);
+
+        if($validator->fails()) {
+            return redirect('anggota')->withErrors($validator)->withInput();
+        }
+
+        // catch file
+        $time_for_file = time();
+
+        if(!$request->file('anggota_ktp')) {
+            $file_ktp = $request->file('anggota_ktp');
+            $file_name = 'ktp_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_ktp->getClientOriginalExtension();
+            $file_ktp->move(public_path('uploads/anggota/'), $file_name);
+        }
+
+        if(!$request->file('anggota_npwp')) {
+            $file_npwp = $request->file('anggota_npwp');
+            $file_name = 'npwp_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_npwp->getClientOriginalExtension();
+            $file_npwp->move(public_path('uploads/anggota/'), $file_name);
+        }
+
+        if(!$request->file('anggota_bpjs')) {
+            $file_bpjs = $request->file('anggota_bpjs');
+            $file_name = 'bpjs_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_bpjs->getClientOriginalExtension();
+            $file_bpjs->move(public_path('uploads/anggota/'), $file_name);
+        }
 
         $this->anggota_model::create($data);
 

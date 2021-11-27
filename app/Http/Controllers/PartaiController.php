@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PartaiModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PartaiController extends Controller
 {
@@ -28,6 +29,28 @@ class PartaiController extends Controller
     {
         $file_partai = $request->file('partai_logo');
         $nama_partai = $request->partai_nama;
+
+        $data = [
+            'partai_nama' => $nama_partai,
+            'partai_logo' => $request->file('partai_logo')
+        ];
+
+        $rules = [
+            'partai_nama' => 'required',
+            'partai_logo' => 'required|mimes:png,jpg'
+        ];
+
+        $message = [
+            'partai_nama.required' => 'Nama Partai harus diisi',
+            'partai_logo.required' => 'Logo Partai harus Anda upload',
+            'partai_logo.mimes' => 'File logo partai yang diupload harus berformat jpg, png'
+        ];
+
+        $validator = Validator::make($data, $rules, $message);
+
+        if($validator->fails()) {
+            return redirect('partai')->withErrors($validator)->withInput();
+        }
 
         $nama_partai = str_replace(" ", "", $nama_partai);
         $nama_file = $nama_partai . '-' . time() . '.' . $file_partai->getClientOriginalExtension();

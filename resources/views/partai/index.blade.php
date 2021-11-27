@@ -72,6 +72,18 @@
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <div>
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    Ada beberapa kesalahan dalam pengisian data, mohon periksa kembali!
+                                </div>
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $item => $value)
+                                            <li class="text-small"> {{$value}} </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="form-group">
                                 <label for="partai_nama">Nama Partai</label>
                                 <input type="text" class="form-control" id="partai_nama" required name="partai_nama">
