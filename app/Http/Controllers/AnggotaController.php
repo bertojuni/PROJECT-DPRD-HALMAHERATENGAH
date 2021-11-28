@@ -62,7 +62,7 @@ class AnggotaController extends Controller
             'anggota_jabatan' => 'required|string',
             'anggota_tempatlhr' => 'required|string',
             'anggota_tgllhr' => 'required|string',
-            'partai_id' => 'required|date',
+            'partai_id' => 'required',
             'anggota_pasangan' => 'required',
             'anggota_alamat' => 'required',
             'anggota_nohp' => 'required|string',
@@ -91,6 +91,8 @@ class AnggotaController extends Controller
             'anggota_bpjs' => 'Anda harus mengupload BPJS anggota'
         ];
 
+
+
         $validator = Validator::make($data, $rules, $messages);
 
         if($validator->fails()) {
@@ -100,26 +102,35 @@ class AnggotaController extends Controller
         // catch file
         $time_for_file = time();
 
-        if(!$request->file('anggota_ktp')) {
+        if($request->file('anggota_ktp') != null) {
             $file_ktp = $request->file('anggota_ktp');
-            $file_name = 'ktp_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_ktp->getClientOriginalExtension();
+            $file_name = 'uploads/anggota/' . 'ktp_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_ktp->getClientOriginalExtension();
             $file_ktp->move(public_path('uploads/anggota/'), $file_name);
+
+            $data['anggota_ktp'] = $file_name;
         }
 
-        if(!$request->file('anggota_npwp')) {
+        if($request->file('anggota_npwp') != null) {
             $file_npwp = $request->file('anggota_npwp');
-            $file_name = 'npwp_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_npwp->getClientOriginalExtension();
+            $file_name = 'uploads/anggota/' . 'npwp_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_npwp->getClientOriginalExtension();
             $file_npwp->move(public_path('uploads/anggota/'), $file_name);
+
+            $data['anggota_npwp'] = $file_name;
+
         }
 
-        if(!$request->file('anggota_bpjs')) {
+        if($request->file('anggota_bpjs') != null) {
             $file_bpjs = $request->file('anggota_bpjs');
-            $file_name = 'bpjs_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_bpjs->getClientOriginalExtension();
+            $file_name = 'uploads/anggota/' . 'bpjs_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_bpjs->getClientOriginalExtension();
             $file_bpjs->move(public_path('uploads/anggota/'), $file_name);
+
+            $data['anggota_bpjs'] = $file_name; 
         }
 
-        $this->anggota_model::create($data);
+        dd($data);
 
+        AnggotaModel::create($data);
+        
         return redirect('/anggota');
     }
 

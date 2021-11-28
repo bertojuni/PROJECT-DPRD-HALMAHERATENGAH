@@ -64,13 +64,13 @@
                 <div class="modal-body">
                     <div>
                         <div class="form-group">
-                            <label for="pg_nama">Nama Pegawai</label>
-                            <input type="text" class="form-control" id="pg_nama" required name="pg_nama">
+                            <label for="ppt_nama">Nama Pegawai</label>
+                            <input type="text" class="form-control" id="ppt_nama" required name="ppt_nama">
                         </div>
 
                         <div class="form-group">
-                            <label for="pg_pendidikan">Tingkat Pendidikan</label>
-                            <select name="pg_pendidikan" id="pg_pendidikan" class="form-control">
+                            <label for="ppt_pendidikan">Tingkat Pendidikan</label>
+                            <select name="ppt_pendidikan" id="ppt_pendidikan" class="form-control">
                                 <option value="sd">SD</option>
                                 <option value="smp">SMP</option>
                                 <option value="smak">SMA/SMK</option>
@@ -82,33 +82,33 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="pg_tempatlhr">Tempat Lahir</label>
-                            <input type="text" class="form-control" id="pg_tempatlhr" required name="pg_tempatlhr">
+                            <label for="ppt_tempatlhr">Tempat Lahir</label>
+                            <input type="text" class="form-control" id="ppt_tempatlhr" required name="ppt_tempatlhr">
                         </div>
 
                         <div class="form-group">
-                            <label for="pg_tgllhr">Tgl Lahir</label>
-                            <input type="date" class="form-control" id="pg_tgllhr" required name="pg_tgllhr">
+                            <label for="ppt_tgllhr">Tgl Lahir</label>
+                            <input type="date" class="form-control" id="ppt_tgllhr" required name="ppt_tgllhr">
                         </div>
 
                         <div class="form-group">
-                            <label for="pg_alamat">Alamat</label>
-                            <input type="text" class="form-control" id="pg_alamat" required name="pg_alamat">
+                            <label for="ppt_alamat">Alamat</label>
+                            <input type="text" class="form-control" id="ppt_alamat" required name="ppt_alamat">
                         </div>
 
                         <div class="form-group">
-                            <label for="pg_kontak">No HP</label>
-                            <input type="tel" class="form-control" id="pg_kontak" required name="pg_kontak">
+                            <label for="ppt_nohp">No HP</label>
+                            <input type="tel" class="form-control" id="ppt_nohp" required name="ppt_nohp">
                         </div>
 
                         <div class="form-group">
-                            <label for="pg_jabatan">Divisi</label>
-                            <input type="text" class="form-control" id="pg_jabatan" required name="pg_jabatan">
+                            <label for="ppt_bagian">Divisi</label>
+                            <input type="text" class="form-control" id="ppt_bagian" required name="ppt_bagian">
                         </div>
 
                         <div class="form-group">
-                            <label for="pg_ktp">Foto KTP</label>
-                            <input type="file" class="form-control" id="pg_ktp" required name="pg_ktp">
+                            <label for="ppt_ktp">Foto KTP</label>
+                            <input type="file" class="form-control" id="ppt_ktp" required name="ppt_ktp">
                         </div>
 
 

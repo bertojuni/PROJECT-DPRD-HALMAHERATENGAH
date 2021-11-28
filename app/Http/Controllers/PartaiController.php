@@ -53,10 +53,10 @@ class PartaiController extends Controller
         }
 
         $nama_partai = str_replace(" ", "", $nama_partai);
-        $nama_file = $nama_partai . '-' . time() . '.' . $file_partai->getClientOriginalExtension();
+        $nama_file = 'uploads/partai/' . $nama_partai . '-' . time() . '.' . $file_partai->getClientOriginalExtension();
 
-        $file_partai->move(public_path('/uploads/partai'),  $nama_file);
-        $file_name = 'uploads/partai/' . $nama_file;
+        $file_partai->move(public_path('uploads/partai/'),  $nama_file);
+        $file_name = $nama_file;
 
         $data = [
             'partai_nama' => $request->partai_nama,

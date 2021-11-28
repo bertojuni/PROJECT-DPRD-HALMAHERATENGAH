@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
                 <div class="mb-3 mt-1">
-                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addDataPartai">
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addDataAnggota">
                         <i class="fas fa-plus"></i>
                         Tambah Data
                     </button>
@@ -62,11 +62,11 @@
 
 
 {{-- modal add data --}}
-<div class="modal fade" id="addDataPartai" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="addDataPartaiLabel" aria-hidden="true">
+<div class="modal fade" id="addDataAnggota" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="addDataAnggotaLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addDataPartaiLabel">Tambah Data Partai</h5>
+                <h5 class="modal-title" id="addDataAnggotaLabel">Tambah Data Partai</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -75,6 +75,18 @@
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <div>
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            Ada beberapa kesalahan dalam input data
+                            <div>
+                                <ul>
+                                    @foreach ($errors->all() as $item => $value)
+                                        <li class="text-small"> {{$value}} </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                        @endif  
                         <div class="form-group">
                             <label for="anggota_nama">Nama Anggota</label>
                             <input type="text" class="form-control" id="anggota_nama" required name="anggota_nama">
@@ -194,5 +206,11 @@
         $('#deleteDataAnggota').modal('show');
         document.getElementById('modal-delete-form').setAttribute('action', 'anggota/delete/' + id);
     }
+
+    @if($errors->any())
+        $(window).on('load', function() {
+        $('#addDataAnggota').modal('show');
+    });
+    @endif
 </script>
 @endsection

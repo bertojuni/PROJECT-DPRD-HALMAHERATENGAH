@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\auth\Index;
 use App\Http\Controllers\PartaiController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PPTController;
 
 //end
 
@@ -66,6 +67,8 @@ Route::get('/suratmasuk', function () {
 });
 
 // ppt
-Route::get('/ppt', function () {
-    return view('ppt/index');
+Route::get('/ppt', [PPTController::class, 'index']);
+
+Route::get('/public', function() {
+    echo public_path('uploads/');
 });
