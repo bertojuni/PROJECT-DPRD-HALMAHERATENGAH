@@ -8,6 +8,7 @@ use App\Http\Controllers\auth\Index;
 use App\Http\Controllers\PartaiController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PPTController;
+use App\Http\Controllers\SuratMasukController;
 
 //end
 
@@ -57,13 +58,17 @@ Route::get('/pegawai/edit/{id}', [PegawaiController::class, 'edit']);
 Route::post('/pegawai/update/{id}', [PegawaiController::class, 'update']);
 Route::post('/pegawai/delete/{id}', [PegawaiController::class, 'delete']);
 
+// surat masuk
+Route::get('/suratmasuk', [SuratMasukController::class, 'index']);
+Route::get('/suratmasuk/detail/{id}', [SuratMasukController::class, 'detail']);
+Route::post('/suratmasuk/store', [SuratMasukController::class, 'store']);
+Route::get('/suratmasuk/edit/{id}', [SuratMasukController::class, 'edit']);
+Route::post('/suratmasuk/update/{id}', [SuratMasukController::class, 'update']);
+Route::post('/suratmasuk/delete/{id}', [SuratMasukController::class, 'delete']);
+
+
 Route::get('/umum', function () {
     return view('index');
-});
-
-// surat
-Route::get('/suratmasuk', function () {
-    return view('suratmasuk/index');
 });
 
 // ppt
