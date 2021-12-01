@@ -170,11 +170,69 @@ class AnggotaController extends Controller
             'anggota_pekerjaan' => $request->anggota_pekerjaan,
             'anggota_email' => $request->anggota_email,
             'anggota_anak' => $request->anggota_anak,
-            'anggota_ktp' => $request->anggota_ktp,
-            'anggota_npwp' => $request->anggota_npwp,
-            'anggota_bpjs' => $request->anggota_bpjs
-
         ];
+
+        $rules = [
+            'anggota_nama' => 'required|string',
+            'anggota_jabatan' => 'required|string',
+            'anggota_tempatlhr' => 'required|string',
+            'anggota_tgllhr' => 'required|string',
+            'partai_id' => 'required',
+            'anggota_pasangan' => 'required',
+            'anggota_alamat' => 'required',
+            'anggota_nohp' => 'required|string',
+            'anggota_pekerjaan' => 'required|string',
+            'anggota_email' => 'required|email',
+            'anggota_anak' => 'required|integer',
+        ];
+
+        $messages = [
+            'anggota_nama.required' => 'Anda harus mengisi kolom nama',
+            'anggota_jabatan.required' => 'Anda harus mengisi kolom jabatan',
+            'anggota_tempatlhr.required' => 'Anda harus mengisi kolom tempat lahir',
+            'anggota_tgllhr.required' => 'Anda harus mengisi kolom tgl lahir',
+            'partai_id' => 'Anda harus mengisi partai yang bersangkutan dengan anggota',
+            'anggota_pasangan' => 'Anda harus mengisi kolom nama anggota pasangan',
+            'anggota_alamat' => 'Anda harus mengisi kolom alamat anggota',
+            'anggota_nohp' => 'Anda harus mengisi kolom nomor HP',
+            'anggota_pekerjaan' => 'Anda harus mengisi pekerjaan anggota',
+            'anggota_email' => 'Anda harus mengisi alamt email',
+            'anggota_anak' => 'Anda harus mengisi jumlah anak',
+        ];
+
+        $validator = Validator::make($data, $rules, $messages);
+        if($validator->fails()) {
+            return redirect('/anggota')->withErrors($validator->errors())->withInput();
+        } 
+
+        // catch file
+        $time_for_file = time();
+
+        if($request->file('ktp_update')) {
+            $file_ktp = $request->file('ktp_update');
+            $file_name = 'uploads/anggota/' . 'ktp_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_ktp->getClientOriginalExtension();
+            $file_ktp->move(public_path('uploads/anggota/'), $file_name);
+
+            $data['anggota_ktp'] = $file_name;
+        }
+
+        if($request->file('npwp_update')) {
+            $file_npwp = $request->file('npwp_update');
+            $file_name = 'uploads/anggota/' . 'npwp_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_npwp->getClientOriginalExtension();
+            $file_npwp->move(public_path('uploads/anggota/'), $file_name);
+
+            $data['anggota_npwp'] = $file_name;
+        }
+
+        if($request->file('bpjs_update')) {
+            $file_npwp = $request->file('bpjs_update');
+            $file_name = 'uploads/anggota/' . 'bpjs_' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_npwp->getClientOriginalExtension();
+            $file_npwp->move(public_path('uploads/anggota/'), $file_name);
+
+            $data['anggota_bpjs'] = $file_name;
+        }
+
+        // dd($data);
 
         $this->anggota_model::where('anggota_id', $id)->update($data);
 

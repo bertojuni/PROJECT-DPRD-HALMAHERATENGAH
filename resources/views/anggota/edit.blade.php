@@ -89,25 +89,7 @@
                                     <label for="anggota_anak">Jumlah Anak</label>
                                     <input type="text" class="form-control" id="anggota_anak" required name="anggota_anak" value="{{ $anggota->anggota_anak }}">
                                 </div>
-                                <hr>
-                                {{-- ktp --}}
-                                <div class="form-group">
-                                    <label for="anggota_ktp">Foto KTP</label>
-                                    <input type="file" class="form-control" id="anggota_ktp" required name="anggota_ktp" value="{{ $anggota->anggota_ktp }}">
-                                </div>
-                                <hr>
-                                {{-- npwp --}}
-                                <div class="form-group">
-                                    <label for="anggota_npwp">Foto NPWP</label>
-                                    <input type="file" class="form-control" id="anggota_npwp" required name="anggota_npwp" value="{{ $anggota->anggota_npwp }}">
-                                </div>
-                                <hr>
-                                {{-- bpjs --}}
-                                <div class="form-group">
-                                    <label for="anggota_bpjs">No BPJS</label>
-                                    <input type="text" class="form-control" id="anggota_bpjs" required name="anggota_bpjs" value="{{ $anggota->anggota_bpjs }}">
-                                </div>
-                                <hr>
+                                
 
                             </div>
                             <div class="col-lg-6">
@@ -115,10 +97,8 @@
                                     <label for="" class="font-weight-bold">KTP</label>
                                     <div>
                                         <img src="{{ url($anggota->anggota_ktp) }}" alt="img" class="img-fluid border" style="border-radius: 10px">
-                                        <div class="form-group" style="">
-                                            <button class="btn btn-danger btn-circle">
-                                                <i class="fas fa-pencil-alt" style="font-size: 20px"></i>
-                                            </button>
+                                        <div>
+                                            <input type="file" class="form-control mt-2" name="ktp_update">
                                         </div>
                                     </div>
                                 </div>
@@ -128,6 +108,11 @@
                                 <div class="form-group mt-1">
                                     <label for="" class="font-weight-bold">NPWP</label>
                                     <img src="{{ url($anggota->anggota_npwp) }}" alt="img" class="img-fluid border" style="border-radius: 10px">
+
+                                    <div>
+                                        <input type="file" class="form-control mt-2" name="npwp_update">
+                                        <small class="text-danger">Apabila gambar tidak update, harap kosongkan saja</small>
+                                    </div>
                                 </div>
 
                                 <hr>
@@ -135,14 +120,19 @@
                                 <div class="form-group mt-1">
                                     <label for="" class="font-weight-bold">BPJS</label>
                                     <img src="{{ url($anggota->anggota_bpjs) }}" alt="img" class="img-fluid border" style="border-radius: 10px">
+
+                                    <div>
+                                        <input type="file" class="form-control mt-2" name="bpjs_update">
+                                        <small class="text-danger">Apabila gambar tidak update, harap kosongkan saja</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row mt-4">
                             <div class="col">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <button type="submit" class="btn btn-primary float-right">Update Data Anggota</button>
                                 </div>
                             </div>
                         </div>
