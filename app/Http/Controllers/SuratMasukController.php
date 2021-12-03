@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Validator;
 class SuratMasukController extends Controller
 {
     //
-    public function index() {
+    public function index()
+    {
         $data = [
             'sm' => SuratMasukModel::get()
         ];
@@ -17,15 +18,21 @@ class SuratMasukController extends Controller
         return view('suratmasuk.index', $data);
     }
 
-    public function detail($id) {
+    public function detail($id)
+    {
         $data = [
             'sm' => SuratMasukModel::where('sm_id', $id)->first()
         ];
 
+        if($data['sm'] == null) {
+            return redirect('/suratmasuk')->with('error_message', 'Data yang Anda cari tidak ditemukan!');
+        }
+
         return view('suratmasuk.detail', $data);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $data = [
             'sm_asal' => $request->sm_asal,
             'sm_no' => $request->sm_no,
@@ -61,8 +68,18 @@ class SuratMasukController extends Controller
         ];
 
         $validator = Validator::make($data, $rules, $messages);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect('/suratmasuk')->withErrors($validator)->withInput();
+        }
+
+        if ($request->file('sm_file')) {
+            $time_for_file = time();
+
+            $file_sm = $request->file('sm_file');
+            $file_name = 'uploads/suratmasuk/' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_sm->getClientOriginalExtension();
+            $file_sm->move(public_path('uploads/suratmasuk/'), $file_name);
+
+            $data['sm_file'] = $file_name;
         }
 
         SuratMasukModel::create($data);
@@ -70,20 +87,24 @@ class SuratMasukController extends Controller
         return redirect('/suratmasuk');
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $data = [
+            'id' => $id,
             'sm' => SuratMasukModel::where('sm_id', $id)->first()
         ];
 
-        if($data == null) {
+        if ($data['sm'] == null) {
             return redirect('/suratmasuk')->with('error_message', 'Data yang Anda cari tidak ditemukan');
         }
 
         return view('suratmasuk.edit', $data);
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         // place update code here
+
         $data = [
             'sm_asal' => $request->sm_asal,
             'sm_no' => $request->sm_no,
@@ -119,19 +140,66 @@ class SuratMasukController extends Controller
         ];
 
         $validator = Validator::make($data, $rules, $messages);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect('/suratmasuk')->withErrors($validator)->withInput();
         }
 
-        SuratMasukModel::where('sm_id', $id)->update($data);
+        $option_change = $request->ganti_file_surat;
 
-        return redirect('/suratmasuk');
+        if ($option_change == null) {
+            // file awalnya tidak ada
+
+            // lalu kemudian user melakukan upload
+            if ($request->file('sm_file')) {
+                $time_for_file = time();
+
+                $file_sm = $request->file('sm_file');
+                $file_name = 'uploads/suratmasuk/' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_sm->getClientOriginalExtension();
+                $file_sm->move(public_path('uploads/suratmasuk/'), $file_name);
+
+                $data['sm_file'] = $file_name;
+
+            }
+        } else {
+            if($option_change == 'hapus') {
+                $dataupdate = SuratMasukModel::where('sm_id', $id)->first();
+                $dataupdate->sm_file = null;
+
+                try {
+                    $dataupdate->save();
+                } catch(\Exception $th) {
+                    return redirect('/suratmasuk')->with('error_message', 'Gagal mengubah data surat masuk');
+                }
+        
+                return redirect('/suratmasuk')->with('success_message', 'Sukses mengubah data surat masuk');
+                
+
+            } else if($option_change == 'ganti') {
+                if ($request->file('update_file_sm')) {
+                    $time_for_file = time();
+    
+                    $file_sm = $request->file('update_file_sm');
+                    $file_name = 'uploads/suratmasuk/' . md5($time_for_file) . '_' . $time_for_file . '.' . $file_sm->getClientOriginalExtension();
+                    $file_sm->move(public_path('uploads/suratmasuk/'), $file_name);
+    
+                    $data['sm_file'] = $file_name;
+                }
+            }
+        }
+
+        try {
+            SuratMasukModel::where('sm_id', $id)->update($data);
+        } catch(\Exception $th) {
+            return redirect('/suratmasuk')->with('error_message', 'Gagal mengubah data surat masuk');
+        }
+
+        return redirect('/suratmasuk')->with('success_message', 'Sukses mengubah data surat masuk');
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         SuratMasukModel::where('sm_id', $id)->delete();
 
         return redirect('/suratmasuk');
     }
-
 }

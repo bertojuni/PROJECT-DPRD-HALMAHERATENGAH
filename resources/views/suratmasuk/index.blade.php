@@ -11,13 +11,13 @@
                 <div class="card-body">
                     @if (session('error_message'))
                         <div class="alert alert-danger">
-                            {{session('error_message')}}
+                            {{ session('error_message') }}
                         </div>
                     @endif
 
                     @if (session('success_message'))
                         <div class="alert alert-success">
-                            {{session('success_message')}}
+                            {{ session('success_message') }}
                         </div>
                     @endif
 
@@ -43,23 +43,24 @@
 
                                 @foreach ($sm as $item)
                                     <tr>
-                                        <td> {{$i}} </td>
-                                        <td> {{$item->sm_asal}} </td>
-                                        <td> {{$item->sm_desc}} </td>
-                                        <td> {{$item->sm_masuk}} </td>
+                                        <td> {{ $i }} </td>
+                                        <td> {{ $item->sm_asal }} </td>
+                                        <td> {{ $item->sm_desc }} </td>
+                                        <td> {{ $item->sm_masuk }} </td>
 
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-primary btn-circle">
+                                            <a href="{{ url('suratmasuk/detail/' . $item->sm_id) }}" class="btn btn-sm btn-primary btn-circle">
                                                 <i class="fas fa-info"></i>
                                             </a>
-                                            <a href="#" class="btn btn-sm btn-warning btn-circle">
+                                            <a href="{{ url('suratmasuk/edit/' . $item->sm_id) }}" class="btn btn-sm btn-warning btn-circle">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </a>
-                                            <div onclick="#" class="btn btn-sm btn-danger btn-circle">
+                                            <div onclick="deleteModal({{ $item->sm_id }})" class="btn btn-sm btn-danger btn-circle">
                                                 <i class="fas fa-trash"></i>
                                             </div>
                                         </td>
                                     </tr>
+                                    @php($i++)
                                 @endforeach
 
 
@@ -103,7 +104,7 @@
                                             <label for="sm_no">No. Surat</label>
                                             <input type="text" class="form-control" id="sm_no" required name="sm_no">
                                         </div>
-                                        
+
                                         <div class="form-group">
                                             <label for="sm_perihal">Perihal</label>
                                             <input type="text" class="form-control" id="sm_perihal" required name="sm_perihal">
@@ -130,6 +131,11 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="sm_file">File Surat</label>
+                                            <input type="file" class="form-control" id="sm_file" name="sm_file">
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="sm_desc">Deskripsi</label>
                                             <textarea name="sm_desc" id="sm_desc" cols="30" rows="10" class="form-control"></textarea>
                                         </div>
@@ -144,18 +150,40 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- modal delete confirmation --}}
+                <div class="modal fade" id="deleteDataSurat" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteDataSuratLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Apakah Anda Yakin Ingin Menghapus Data Tersebut ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <form action="" method="POST" id="modal-delete-form">
+                                    {{ csrf_field() }}
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 
 @endsection
-<!--
 @section('script-custom')
-            <script>
-                function deleteModal(id) {
-                    $('#deleteDataPegawai').modal('show');
-                    document.getElementById('modal-delete-form').setAttribute('action', 'pegawai/delete/' + id);
-                }
-            </script>
-@endsection-->
+    <script>
+        function deleteModal(id) {
+            $('#deleteDataSurat').modal('show');
+            document.getElementById('modal-delete-form').setAttribute('action', 'suratmasuk/delete/' + id);
+        }
+    </script>
+@endsection
