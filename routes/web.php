@@ -5,9 +5,11 @@ use Illuminate\Support\Facades\Route;
 
 //AUTH
 use App\Http\Controllers\auth\Index;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PartaiController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PPTController;
+use App\Http\Controllers\PTTController;
 use App\Http\Controllers\SuratMasukController;
 
 //end
@@ -30,10 +32,7 @@ Route::get('/login', [Index::class, 'index']);
 
 
 // dashboard
-Route::get('/', function () {
-    return view('keuangan/index');
-});
-
+Route::get('/', [DashboardController::class, 'index']);
 
 // Partai
 Route::get('/partai', [PartaiController::class, 'index']);
@@ -67,12 +66,15 @@ Route::post('/suratmasuk/update/{id}', [SuratMasukController::class, 'update']);
 Route::post('/suratmasuk/delete/{id}', [SuratMasukController::class, 'delete']);
 
 
+Route::get('/ptt', [PTTController::class, 'index']);
+Route::post('/ptt/store', [PTTController::class, 'store']);
+
+
 Route::get('/umum', function () {
     return view('index');
 });
 
 // ppt
-Route::get('/ppt', [PPTController::class, 'index']);
 
 Route::get('/public', function() {
     echo public_path('uploads/');

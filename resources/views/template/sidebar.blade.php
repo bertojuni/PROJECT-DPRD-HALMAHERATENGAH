@@ -55,7 +55,7 @@ $urlSegment = Request::segments();
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link" href="{{url('anggota')}}" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-users"></i>
+            <i class="fas fa-fw fa-user-tie"></i>
             <span>Anggota</span>
         </a>
     </li>
@@ -63,15 +63,15 @@ $urlSegment = Request::segments();
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link" href="{{ url('pegawai') }}" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-people-carry"></i>
+            <i class="fas fa-fw fa-users"></i>
             <span>Pegawai</span>
         </a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ url('ppt') }}" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-people-carry"></i>
-            <span>PPT</span>
+        <a class="nav-link" href="{{ url('ptt') }}" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-user"></i>
+            <span>PTT</span>
         </a>
     </li>
 
