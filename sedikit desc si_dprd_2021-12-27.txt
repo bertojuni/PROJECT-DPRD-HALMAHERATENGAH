@@ -1,0 +1,33 @@
+1.Tabel anggaran :
+	- Ag_jenis (diambil dari jenis_anggaran.ja_id)
+	- Ag_spesifikasi (diambil dari province.province_id)
+
+2.Tabel jenis_surat : js_tipe bisa surat masuk saja, bisa surat masuk dan surat keluar
+
+3.Tabel kwitansi :
+	- Kw_bendahara memilih dari daftar pegawai dan anggota
+	- Kw_sekwan memilih dari daftar pegawai dan anggota
+	- Kw_penerima memilih dari daftar pegawai dan anggota
+
+4.Tabel rincian_biaya :
+	- Rb_sppd diambil dari sppd.sppd_id (tapi yang ditampilin no sppd)
+	- Baiknya ditambahain atribut no sppd juga apa ambil dari id sppd aja?
+
+5. Tabel sppd :
+	- Sppd_asal defaultnya subdistrict_id dari kecamatan weda
+	- Sppd_waktu lama perjalanan (hari)
+	- Sppd_jenis dipilih dari tabel jenis_perjalanan
+	- Sppd_rek dipilih dari tabel rekening
+
+6. Tabel sppd_pegawai :
+	- Ds_sppd diambil dari sppd.sppd_id
+	- Ds_pegawai diambil dari tabel anggota dan pegawai
+	- Satu no sppd bisa terdiri dari beberapa pegawai dan atau anggota
+	- Baiknya tambah atribut no sppd juga ga?
+
+7. Tabel sppd_pengikut :
+	- Sp_sppd diambil dari sppd.sppd_id
+	- Sp_pengikut diambil dari tabel ptt dan pegawai 
+	- Satu no sppd bisa terdiri dari beberapa pengikut
+	- Baiknya tambah atribut no sppd juga ga?
+
