@@ -5,11 +5,13 @@ use Illuminate\Support\Facades\Route;
 
 //AUTH
 use App\Http\Controllers\auth\Index;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PartaiController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PPTController;
 use App\Http\Controllers\PTTController;
+use App\Http\Controllers\SPPDController;
 use App\Http\Controllers\SuratMasukController;
 
 //end
@@ -33,6 +35,10 @@ Route::get('/login', [Index::class, 'index']);
 
 // dashboard
 Route::get('/', [DashboardController::class, 'index']);
+
+Route::get('/login', [AuthController::class, 'index']);
+
+Route::post('/authenticate', [AuthController::class, 'authenticate']);
 
 // Partai
 Route::get('/partai', [PartaiController::class, 'index']);
@@ -64,6 +70,11 @@ Route::post('/suratmasuk/store', [SuratMasukController::class, 'store']);
 Route::get('/suratmasuk/edit/{id}', [SuratMasukController::class, 'edit']);
 Route::post('/suratmasuk/update/{id}', [SuratMasukController::class, 'update']);
 Route::post('/suratmasuk/delete/{id}', [SuratMasukController::class, 'delete']);
+
+// SPPD
+Route::get('/sppd', [SPPDController::class, 'index']);
+Route::get('/sppd/add', [SPPDController::class, 'create']);
+Route::post('/sppd/store', [SPPDController::class, 'store']);
 
 
 Route::get('/ptt', [PTTController::class, 'index']);

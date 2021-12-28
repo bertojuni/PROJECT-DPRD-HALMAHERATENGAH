@@ -75,6 +75,13 @@ $urlSegment = Request::segments();
         </a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('sppd') }}" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-file-alt"></i>
+            <span>SPPD</span>
+        </a>
+    </li>
+
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link" href="#" aria-expanded="true" aria-controls="collapseTwo">

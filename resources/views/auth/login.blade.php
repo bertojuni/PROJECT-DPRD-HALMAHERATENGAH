@@ -1,64 +1,96 @@
-<!--============================================= CSS ==================================================-->
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>Login</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="{{ asset ('auth/vendor/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset ('auth/fonts/Linearicons-Free-v1.0.0/icon-font.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset ('auth/vendor/animate/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset ('auth/vendor/css-hamburgers/hamburgers.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset ('auth/vendor/animsition/css/animsition.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset ('auth/vendor/select2/select2.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset ('auth/vendor/daterangepicker/daterangepicker.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset ('auth/css/util.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset ('auth/css/main.css') }}">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Login</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{url('sbadmin/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href={{url("sbadmin/css/sb-admin-2.min.css")}} rel="stylesheet">
+
 </head>
-<!--============================================ END CSS ===================================================-->
 
-<!--============================================== CONTENT =================================================-->
-<div class="limiter">
-    <div class="container-login100">
-        <div class="wrap-login100 p-t-30 p-b-50">
-            <span class="login100-form-title p-b-41">
-                Silahkan Login
-            </span>
-            <form class="login100-form validate-form p-b-33 p-t-5">
+<body class="bg-gradient-primary">
 
-                <div class="wrap-input100 validate-input" data-validate="Enter username">
-                    <input class="input100" type="text" name="username" placeholder="User name">
-                    <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-6 col-lg-6 col-sm-12 col-md-8">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Selamat Datang</h1>
+                                    </div>
+                                    <form class="user" action="{{url('/authenticate')}}" method="POST">
+                                        {{ csrf_field() }}
+                                        <div class="form-group">
+                                            <input type="email" name="email" class="form-control form-control-user"
+                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                                placeholder="Enter Email Address...">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">Remember
+                                                    Me</label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Login
+                                        </button>
+                                    </form>
+                                    <hr>
+                                    {{-- <div class="text-center">
+                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="register.html">Create an Account!</a>
+                                    </div> --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter password">
-                    <input class="input100" type="password" name="pass" placeholder="Password">
-                    <span class="focus-input100" data-placeholder="&#xe80f;"></span>
-                </div>
+            </div>
 
-                <div class="container-login100-form-btn m-t-32">
-                    <button class="login100-form-btn">
-                        Login
-                    </button>
-                </div>
-
-            </form>
         </div>
+
     </div>
-</div>
 
+    <!-- Bootstrap core JavaScript-->
+    <script src={{url("sbadmin/vendor/jquery/jquery.min.js")}}></script>
+    <script src={{url("sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js")}}></script>
 
-<div id="dropDownSelect1"></div>
-<!--============================================== END CONTENT =================================================-->
+    <!-- Core plugin JavaScript-->
+    <script src={{url("sbadmin/vendor/jquery-easing/jquery.easing.min.js")}}></script>
 
-<!--================================================= JS ==============================================-->
-<script src="{{ asset ('auth/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
-<script src="{{ asset ('auth/vendor/animsition/js/animsition.min.js') }}"></script>
-<script src="{{ asset ('auth/vendor/bootstrap/js/popper.js') }}"></script>
-<script src="{{ asset ('auth/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset ('auth/vendor/select2/select2.min.js') }}"></script>
-<script src="{{ asset ('auth/vendor/daterangepicker/moment.min.js') }}"></script>
-<script src="{{ asset ('auth/vendor/daterangepicker/daterangepicker.js') }}"></script>
-<script src="{{ asset ('auth/vendor/countdowntime/countdowntime.js') }}"></script>
-<script src="{{ asset ('auth/js/main.js') }}"></script>
-<!--=================================================== END JS ============================================-->
+    <!-- Custom scripts for all pages-->
+    <script src={{url("sbadmin/js/sb-admin-2.min.js")}}></script>
+
+</body>
+
+</html>
