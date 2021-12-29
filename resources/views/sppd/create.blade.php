@@ -33,9 +33,9 @@
                             Asal
                         </div>
 
-                        {{-- <div class="text-right">
-                            <div class="btn btn-success" @click="loadAsalData()">Update</div>
-                        </div> --}}
+                        <div class="text-right">
+                            <div class="btn btn-success" v-on:click="loadAsalData()">Refresh</div>
+                        </div>
 
                         <div class="form-group mt-4">
                             <label for="sppd_asal">Asal Provinsi</label>

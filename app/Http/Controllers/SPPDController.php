@@ -16,8 +16,14 @@ class SPPDController extends Controller
     //
     public function index() {
         $data = [
-            'sppd' => SPPDModel::get()
+            'sppd' => SPPDModel::join('province', 'sppd.sppd_tujuan_prov', 'province.province_id')
+                                ->join('city', 'sppd.sppd_tujuan_city', 'city.city_id')
+                                ->join('subdistrict', 'sppd.sppd_tujuan_subdis', 'subdistrict.subdistrict_id')
+                                ->join('jenis_perjalanan', 'sppd.sppd_jenis', 'jenis_perjalanan.jp_id')
+                                ->select('sppd.*', 'province.province', 'city.city_name', 'subdistrict.subdistrict_name', 'jenis_perjalanan.jp_nama')
+                                ->get()
         ];
+
 
         return view('sppd.index', $data);
     }
@@ -78,20 +84,18 @@ class SPPDController extends Controller
         }
 
         // create kode surat
-        $month = date('m');
-        $year = date('Y');
-        $name = 'SETWAN';
-        $nomor = $month . '/' . $year . '/' . $name . '/' . '1';
-        $data['sppd_no'] = $nomor; 
+        $sppd_model = new SPPDModel();
+        $nomor = $sppd_model->generateKodeSPPD();
 
-        SPPDModel::create($data);
+        $data['sppd_no'] = $nomor;
 
-        // try {
-        // } catch (\Exception $th) {
-        //     return redirect('/sppd')->withErrors('error', 'error insert data');
-        // }
+        try {
+            SPPDModel::create($data);
+        } catch (\Exception $th) {
+            return redirect('/sppd')->withErrors('error', 'error insert data');
+        }
 
-        // return redirect('/sppd');
+        return redirect('/sppd')->with('success', 'Success membuat SPPD');
 
     }
 }

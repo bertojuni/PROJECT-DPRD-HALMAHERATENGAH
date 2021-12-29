@@ -33,7 +33,24 @@
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-                            
+                            <tbody>
+                                @php($i = 1)
+                                @foreach ($sppd as $item)
+                                <tr>
+                                    <td> {{$i}} </td>
+                                    <td> {{$item->sppd_no}} </td>
+                                    <td> {{$item->sppd_desc}} </td>
+                                    <td> {{$item->province}}, {{$item->city_name}}, {{$item->subdistrict_name}} </td>
+                                    <td> {{$item->jp_nama}} </td>
+                                    <td>
+                                        <a href="" class="badge badge-primary"> <i class="fas fa-info"></i> Detail</a>
+                                        <a href="" class="badge badge-warning"> <i class="fas fa-pencil-alt"></i> Edit</a>
+                                        <a href="" class="badge badge-danger"> <i class="fas fa-trash"></i> Delete</a>
+                                    </td>
+                                </tr>
+                                @php($i++)
+                                @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
