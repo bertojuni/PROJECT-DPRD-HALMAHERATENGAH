@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnggotaModel;
 use App\Models\CityModel;
+use App\Models\PegawaiModel;
 use App\Models\ProvinceModel;
 use App\Models\SubdistrictModel;
 use Illuminate\Http\Request;
@@ -79,6 +81,33 @@ class ApiController extends Controller
         return response([
             'status' => 'success',
             'data' => $data
+        ]);
+    }
+
+    public function getAllAnggotaDPRD() {
+        $data = AnggotaModel::join('partai', 'partai.partai_id', 'anggota.partai_id')->select('anggota.*', 'partai.partai_nama')->get();
+
+        return response([
+            'status' => 'success',
+            'data' => $data
+        ]);
+    }
+
+    public function getAllPendampingPegawai() {
+        $pegawai = PegawaiModel::get();
+
+        return response([
+            'status' => 'success',
+            'data' => $pegawai
+        ]);
+    }
+
+    public function getAllPendampingPTT() {
+        $ptt = PTTModel::get();
+
+        return response([
+            'status' => 'success',
+            'data' => $ptt
         ]);
     }
 

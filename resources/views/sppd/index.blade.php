@@ -43,7 +43,7 @@
                                     <td> {{$item->province}}, {{$item->city_name}}, {{$item->subdistrict_name}} </td>
                                     <td> {{$item->jp_nama}} </td>
                                     <td>
-                                        <a href="" class="badge badge-primary"> <i class="fas fa-info"></i> Detail</a>
+                                        <a href="{{url('sppd/detail/' . $item->sppd_id)}}" class="badge badge-primary"> <i class="fas fa-info"></i> Detail</a>
                                         <a href="" class="badge badge-warning"> <i class="fas fa-pencil-alt"></i> Edit</a>
                                         <a href="" class="badge badge-danger"> <i class="fas fa-trash"></i> Delete</a>
                                     </td>

@@ -125,18 +125,57 @@
                             </select>
                         </div>
 
-
                         <div class="form-group mt-4">
-                            <label for="sppd_rek">Rekening</label>
-                            <br>
-                            <select name="sppd_rek" id="sppd_rek" class="form-control selectpicker" data-live-search="true" data-width="100%" v-model="input.rekening">
-                                <option value="null">Pilih Rekening</option>
-                                @foreach ($rekening as $rk)
-                                    <option value="{{ $rk->rek_id }}"> {{ $rk->rek_no . ' - ' . $rk->rek_nama }} </option>
-                                @endforeach
+                            <label for="angkutan_perjalanan">Angkutan Perjalanan</label>
+                            <select name="angkutan_perjalanan" id="angkutan_perjalanan" class="form-control">
+                                <option value="Angkutan Darat">Angkutan Darat</option>
+                                <option value="Angkutan Udara">Angkutan Udara</option>
+                                <option value="Angkutan Laut">Angkutan Laut</option>
                             </select>
                         </div>
 
+                        <hr>
+
+                        {{-- anggota --}}
+                        <div class="form-group mt-4">
+                            <div class="font-weight-bold">Anggota SPPD</div>
+                            <div>Silahkan masukkan data yang terlibat dalam SPPD</div>
+                        </div>
+
+                        <div class="text-right">
+                            <div class="btn btn-success" v-on:click="loadAnggotaDPRD()">Refresh</div>
+                        </div>
+
+                        {{-- anggota dprd --}}
+                        <div class="form-group mt-4">
+                            <label for="anggota_dprd">Anggota DPRD</label>
+                            <br>
+                            <select class="selectpicker" multiple name="anggota_dprd" id="sppd_anggota_dprd" data-live-search="true" data-width="100%" v-model="input.anggota_dprd">
+                                <option value="">Silahkan Pilih</option>
+                                <option v-for="item in option.anggotaDPRD" :value="item.anggota_id"> @{{item.anggota_nama}} [@{{item.partai_nama}}] </option>
+                            </select>
+                        </div>
+
+                        {{-- anggota pendamping lain [pegawai] --}}
+                        <div class="form-group mt-4">
+                            <label for="sppd_anggota_pegawai">Anggota Pendamping Lain [Pegawai]</label>
+                            <br>
+                            <select class="selectpicker" multiple name="sppd_anggota_pegawai" id="sppd_anggota_pegawai" data-live-search="true" data-width="100%" v-model="input.anggota_pegawai">
+                                <option value="">Silahkan Pilih</option>
+                                <option v-for="item in option.pegawai" :value="item.pg_id"> @{{item.pg_nama}} [@{{item.pg_jabatan}}] </option>
+                            </select>
+                        </div>
+
+                        {{-- anggota pendamping lain [ptt] --}}
+                        <div class="form-group mt-4">
+                            <label for="sppd_anggota_ptt">Anggota Pendamping Lain [PTT]</label>
+                            <br>
+                            <select class="selectpicker" multiple name="sppd_anggota_ptt" id="sppd_anggota_ptt" data-live-search="true" data-width="100%" v-model="input.anggota_ptt">
+                                <option value="">Silahkan Pilih</option>
+                                <option v-for="item in option.ptt" :value="item.ppt_id"> @{{item.ppt_nama}} [@{{item.ppt_bagian}}] </option>
+                            </select>
+                        </div>
+                        
                         <br>
                         <button class="btn btn-primary px-4">Tambah SPPD</button>
                     </form>
@@ -174,7 +213,11 @@
                     tgl_berangkat: null,
                     tgl_kembali: null,
                     jenis_perjalnan: null,
-                    rekening: null
+                    rekening: null,
+
+                    anggota_dprd: [],
+                    anggota_pegawai: [],
+                    anggota_ptt: []
                 },
 
                 option: {
@@ -184,7 +227,11 @@
 
                     asalProv: [],
                     asalCity: [],
-                    asalSubdis: []
+                    asalSubdis: [],
+
+                    anggotaDPRD: [],
+                    pegawai: [],
+                    ptt: []
                 }
             },
 
@@ -224,11 +271,57 @@
                     );
 
                     
+                },
+
+                loadAnggotaDPRD() {
+                    let theVue = this;
+
+                    fetch(`${this.urlSite}api/getallanggota/`).then(response => response.json()).then(
+                        json => {
+                            this.option.anggotaDPRD = json.data;
+                            console.log(json)
+                            theVue.$nextTick(function() {
+                                $('#sppd_anggota_dprd').selectpicker('refresh');
+                            });
+                        }
+                    );
+                },
+
+                loadAnggotaPendampingPegawai() {
+                    let theVue = this;
+
+                    fetch(`${this.urlSite}api/getallpegawai`).then(response => response.json()).then(
+                        json => {
+                            this.option.pegawai = json.data;
+                            console.log(json)
+                            theVue.$nextTick(function() {
+                                $('#sppd_anggota_pegawai').selectpicker('refresh');
+                            });
+                        }
+                    );
+                },
+
+                loadAnggotaPendampingPTT() {
+                    let theVue = this;
+
+                    fetch(`${this.urlSite}api/getallptt`).then(response => response.json()).then(
+                        json => {
+                            this.option.ptt = json.data;
+                            console.log(json)
+                            theVue.$nextTick(function() {
+                                $('#sppd_anggota_ptt').selectpicker('refresh');
+                            });
+                        }
+                    );
                 }
             },
 
             beforeMount() {
                 this.loadAsalData();
+
+                this.loadAnggotaDPRD();
+                this.loadAnggotaPendampingPegawai();
+                this.loadAnggotaPendampingPTT();
             },
 
             watch: {

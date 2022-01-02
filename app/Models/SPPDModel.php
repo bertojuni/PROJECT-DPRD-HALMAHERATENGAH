@@ -32,4 +32,26 @@ class SPPDModel extends Model
             return $nomor;
         }
     }
+
+    public function getDetail($id) {
+        $data = SPPDModel::where('sppd_id', $id)
+                            ->join('province', 'province.province_id', 'sppd.sppd_tujuan_prov')
+                            ->join('city', 'city.city_id', 'sppd.sppd_tujuan_city')
+                            ->join('jenis_perjalanan', 'jenis_perjalanan.jp_id', 'sppd.sppd_jenis')
+                            ->join('rekening', 'rekening.rek_id', 'sppd.sppd_rek')
+                            ->join('subdistrict', 'subdistrict.subdistrict_id', 'sppd.sppd_tujuan_subdis')
+                            ->select('sppd.*', 'city.city_name as tujuanCity', 'province.province as tujuanProvince', 'subdistrict.subdistrict_name as tujuanSubdis', 'rekening.*', 'jenis_perjalanan.*')
+                            ->first();
+        // query data asal
+        if($data != null) {
+            $asal_sppd = SPPDModel::where('sppd_id', $id)
+                                ->join('subdistrict', 'subdistrict.subdistrict_id', 'sppd.sppd_asal')
+                                ->first();
+
+            $data->asalSubdistrict = $asal_sppd->subdistrict_name;
+        }
+
+        
+        return $data;
+    }
 }

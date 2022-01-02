@@ -29,3 +29,8 @@ Route::get('/getcityprovince/{id}', [ApiController::class, 'getCityByIDProvince'
 Route::get('/getallsubdistrict', [ApiController::class, 'getAllSubdistrict']);
 Route::get('/getsubdistrict/{id}', [ApiController::class, 'getSubdistrictByID']);
 Route::get('/getsubdistrictcity/{id}', [ApiController::class, 'getSubdistrictByIDCity']);
+
+Route::get('/getallanggota', [ApiController::class, 'getAllAnggotaDPRD']);
+
+Route::get('/getallpegawai', [ApiController::class, 'getAllPendampingPegawai']);
+Route::get('/getallptt', [ApiController::class, 'getAllPendampingPTT']);

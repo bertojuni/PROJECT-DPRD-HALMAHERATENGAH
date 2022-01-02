@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Validator;
 
 class SPPDController extends Controller
 {
+    public function __construct()
+    {
+        $this->sppd_model = new SPPDModel();
+    }
     //
     public function index() {
         $data = [
@@ -97,5 +101,19 @@ class SPPDController extends Controller
 
         return redirect('/sppd')->with('success', 'Success membuat SPPD');
 
+    }
+
+    public function detail($id) {
+        $data = [
+            'sppd' => $this->sppd_model->getDetail($id)
+        ];
+
+        if($data['sppd'] == null) {
+            return redirect('/sppd')->with('error_not_found', 'Data yang Anda cari tidak ada!');
+        }
+
+        // dd($data);
+
+        return view('sppd.detail', $data);
     }
 }

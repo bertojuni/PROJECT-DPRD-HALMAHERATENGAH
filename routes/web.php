@@ -75,6 +75,7 @@ Route::post('/suratmasuk/delete/{id}', [SuratMasukController::class, 'delete']);
 Route::get('/sppd', [SPPDController::class, 'index']);
 Route::get('/sppd/add', [SPPDController::class, 'create']);
 Route::post('/sppd/store', [SPPDController::class, 'store']);
+Route::get('/sppd/detail/{id}', [SPPDController::class, 'detail']);
 
 
 Route::get('/ptt', [PTTController::class, 'index']);
