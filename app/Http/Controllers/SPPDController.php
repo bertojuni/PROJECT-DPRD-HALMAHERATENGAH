@@ -6,10 +6,16 @@ use App\Models\CityModel;
 use App\Models\JenisPerjalananModel;
 use App\Models\ProvinceModel;
 use App\Models\RekeningModel;
+use App\Models\SettingModel;
+use App\Models\SPPDDocumentModel;
 use App\Models\SPPDModel;
+use App\Models\SPTDocumentModel;
 use App\Models\SubdistrictModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
+
+use PDF;
 
 class SPPDController extends Controller
 {
@@ -52,7 +58,7 @@ class SPPDController extends Controller
 
     public function store(Request $request) {
         // $nomor_sppd = '';
-        
+
         $data = [
             'sppd_desc' => $request->sppd_desc,
             'sppd_asal' => $request->sppd_asal_subdis,
@@ -65,6 +71,10 @@ class SPPDController extends Controller
             'sppd_jenis' => $request->sppd_jenis,
             'sppd_rek' => $request->sppd_rek,
             'sppd_tgl' => date('Y-m-d'),
+            'angkutan_perjalanan' => $request->angkutan_perjalanan,
+            'anggota_dprd' => $request->anggota_dprd,
+            'sppd_anggota_pegawai' => $request->sppd_anggota_pegawai,
+            'sppd_anggota_ptt' => $request->sppd_anggota_ptt,
         ];
 
         $rules = [
@@ -77,8 +87,11 @@ class SPPDController extends Controller
             'sppd_berangkat' => 'required|date',
             'sppd_kembali' => 'required|date',
             'sppd_jenis' => 'required|integer',
-            'sppd_rek' => 'required|integer',
+            // 'sppd_rek' => 'required|integer',
             'sppd_tgl' => 'required|date',
+            'anggota_dprd' => 'required',
+            // 'sppd_anggota_pegawai' => 'required',
+            // 'sppd_anggota_ptt' => 'required'
         ];
 
         $validator = Validator::make($data, $rules);
@@ -87,26 +100,87 @@ class SPPDController extends Controller
             dd($validator);
         }
 
+        $jabatan_ttd = SettingModel::where('setting_name', 'nama_ttd_sppd')->first();
+        $nama_ttd = SettingModel::where('setting_name', 'jabatan_ttd_sppd')->first();
+        $nip_ttd = SettingModel::where('setting_name', 'nip_ttd_sppd')->first();
+
+        $bulan = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        ];
+
+        $sppd_checklist = [
+            'deskripsi' => $request->sppd_desc,
+            'angkutan_perjalanan' => $request->angkutan_perjalanan,
+            'asal' => $request->sppd_asal_subdis,
+            'tujuan' => $request->sppd_tujuan_subdis,
+            'lama' => $request->sppd_waktu,
+            'tgl_berangkat' => date('d ', strtotime($request->sppd_berangkat)) . $bulan[(int) date('m ', strtotime($request->sppd_berangkat)) - 1] . ' ' . date('Y', strtotime($request->sppd_berangkat)),
+            'tgl_kembali' => date('d ', strtotime($request->sppd_kembali)) . $bulan[(int) date('m ', strtotime($request->sppd_kembali)) -1] . ' ' . date('Y', strtotime($request->sppd_kembali)),
+            'ttd_nama' => $nama_ttd->setting_value,
+            'ttd_jabatan' => $jabatan_ttd->setting_value,
+            'ttd_nip' => $nip_ttd->setting_value,
+            'tgl_now' => date('d ', time()) . $bulan[(int) date('m ',time()) -1] . ' ' . date('Y', time())
+        ];
+
+        // dd($sppd_checklist);
+
+        $documentcontrol = new DocumentController();
+
+        $documentcontrol->create_sppd_document();
+        // return view('sppd/doc/sptcreate');
+
+        $pdfSppd = PDF::loadview('sppd/doc/sppdcreate', $sppd_checklist);
+        $sppdFileName = date('Ymd') . '-' . time() . '-' . md5(time()) . '.pdf';
+        $pdfSppd->save(public_path('/document/sppd/' . $sppdFileName));
+
+        $pdfSpt = PDF::loadview('sppd/doc/sptcreate');
+        $sptFileName = date('Ymd') . '-' . time() . '-' . md5(time()) . '.pdf';
+        $pdfSpt->save(public_path('/document/spt/' . $sptFileName));
+
         // create kode surat
-        $sppd_model = new SPPDModel();
-        $nomor = $sppd_model->generateKodeSPPD();
-
-        $data['sppd_no'] = $nomor;
-
         try {
-            SPPDModel::create($data);
+            $datacreatedsppd = SPPDModel::create($data);
         } catch (\Exception $th) {
-            return redirect('/sppd')->withErrors('error', 'error insert data');
+            // return redirect('/sppd')->withErrors('error', 'error insert data');
+            dd($th);
         }
 
-        return redirect('/sppd')->with('success', 'Success membuat SPPD');
+        // file to db
+        $created_sppd = SPPDDocumentModel::create([
+            'id_sppd' => $datacreatedsppd->sppd_id,
+            'path' => $sppdFileName,
+            'type' => 'once',
+            'title' => 'SPPD - ' . $request->anggota_dprd
+        ]);
+
+        $created_sppd = SPTDocumentModel::create([
+            'id_sppd' => $datacreatedsppd->sppd_id,
+            'path' => $sptFileName,
+            'type' => 'once',
+            'title' => 'SPT - ' . $request->anggota_dprd
+        ]);
+
+        return redirect('/sppd')->with('success_message', 'SPPD berhasil dibuat!');
 
     }
 
     public function detail($id) {
         $data = [
-            'sppd' => $this->sppd_model->getDetail($id)
+            'sppd' => SPPDModel::where('sppd_id', $id)->first()
         ];
+
+        dd($data);
 
         if($data['sppd'] == null) {
             return redirect('/sppd')->with('error_not_found', 'Data yang Anda cari tidak ada!');
@@ -115,5 +189,15 @@ class SPPDController extends Controller
         // dd($data);
 
         return view('sppd.detail', $data);
+    }
+
+    public function delete($id) {
+        $datasearch = SPPDModel::where('sppd_id', $id)->first();
+
+        if($datasearch) {
+            SPPDModel::where('sppd_id', $id)->delete();
+        }
+
+        return redirect('/sppd');
     }
 }

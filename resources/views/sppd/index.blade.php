@@ -15,6 +15,12 @@
                         </div>
                     @endif
 
+                    @if (session('success_message'))
+                        <div class="alert alert-success">
+                            {{ session('success_message') }}
+                        </div>
+                    @endif
+
                     <div class="mb-3 mt-1">
                         <a target="_blank"  class="btn btn-sm btn-primary" href="/sppd/add">
                             <i class="fas fa-plus"></i>
@@ -43,9 +49,11 @@
                                     <td> {{$item->province}}, {{$item->city_name}}, {{$item->subdistrict_name}} </td>
                                     <td> {{$item->jp_nama}} </td>
                                     <td>
-                                        <a href="{{url('sppd/detail/' . $item->sppd_id)}}" class="badge badge-primary"> <i class="fas fa-info"></i> Detail</a>
-                                        <a href="" class="badge badge-warning"> <i class="fas fa-pencil-alt"></i> Edit</a>
-                                        <a href="" class="badge badge-danger"> <i class="fas fa-trash"></i> Delete</a>
+                                        <a href="{{url('sppd/detail/' . $item->sppd_id)}}" class="btn btn-sm btn-primary"> <i class="fas fa-info"></i></a>
+                                        <a href="" class="btn btn-sm btn-warning"> <i class="fas fa-pencil-alt"></i></a>
+                                        <div onclick="deleteModal({{ $item->sppd_id }})" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </div>
                                     </td>
                                 </tr>
                                 @php($i++)
@@ -60,7 +68,7 @@
 
 
     {{-- modal delete confirmation --}}
-    <div class="modal fade" id="deleteDataPegawai" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteDataPegawaiLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteDataSPPD" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="deleteDataPegawaiLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -86,14 +94,8 @@
 @section('script-custom')
     <script>
         function deleteModal(id) {
-            $('#deleteDataPegawai').modal('show');
-            document.getElementById('modal-delete-form').setAttribute('action', 'pegawai/delete/' + id);
+            $('#deleteDataSPPD').modal('show');
+            document.getElementById('modal-delete-form').setAttribute('action', 'sppd/delete/' + id);
         }
-
-        @if ($errors->any())
-            $(window).on('load', function() {
-            $('#addDataPTT').modal('show');
-            });
-        @endif
     </script>
 @endsection
